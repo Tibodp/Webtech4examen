@@ -15,18 +15,14 @@ import edu.ap.spring.transaction.Transaction;
 @Component
 @Scope("prototype")
 public class BChainInit {
-    @Autowired
+	@Autowired
 	public BlockChain bChain;
 	@Autowired
-	public Wallet coinbase, walletB;
-	@Autowired
-	public Wallet walletA;
-	// @Autowired
-	// public Block genesis, block1;
-	@Autowired
-	public Transaction genesisTransaction;
+	private Wallet coinbase, walletA, walletB;
+	private Transaction genesisTransaction;
 	
 	private Map<String, Wallet> map = new HashMap<String, Wallet>();
+	public Block block1;
 
 	public void init() {
 		bChain.setSecurity();
@@ -36,14 +32,26 @@ public class BChainInit {
 
 		//create genesis transaction, which sends 100 coins to walletA:
 		genesisTransaction = new Transaction(coinbase.getPublicKey(), walletA.getPublicKey(), 100f);
-		//genesisTransaction.generateSignature(coinbase.privateKey);	 //manually sign the genesis transaction	
 		genesisTransaction.generateSignature(coinbase.getPrivateKey());	 // manually sign the genesis transaction	
 		genesisTransaction.transactionId = "0"; // manually set the transaction id
+		
 					
 		//creating and Mining Genesis block
 		Block genesis = new Block();
 		genesis.setPreviousHash("0");
 		genesis.addTransaction(genesisTransaction, bChain);
 		bChain.addBlock(genesis);
+
+		Block block1 = new Block();
+		block1.setPreviousHash(genesis.hash);
+		block1.setTimeStamp();
+        block1.calculateHash();
+
+
+        map.put("A",walletA);
+        map.put("B", walletB);
 	}
+	public Wallet getWalletFromKey(String wallet){
+        return this.map.get(wallet);
+    }
 }

@@ -21,6 +21,8 @@ public class BChainController {
     @Autowired
     private BChainInit bChain;
 
+
+
     @GetMapping("/")
     public String index(Model model) {
         return "index";
@@ -35,5 +37,25 @@ public class BChainController {
     public String init(Model model){
         bChain.init();
         return "index";
+    }
+
+    @PostMapping("/balance")
+    public String balance(@RequestParam("walletKey") String key, Model model) {
+        Wallet wallet = bChain.getWalletFromKey(key);
+        float balance = wallet.getBalance();
+        model.addAttribute("balance",balance);
+        return "balance";
+    }
+
+    @PostMapping("/sendFunds")
+    public String sendFunds(@RequestParam("from") String from, @RequestParam("to") String to,
+            @RequestParam("amount") Float amount) {
+        Wallet senderWallet = bChain.getWalletFromKey(from);
+        Wallet receiverWallet = bChain.getWalletFromKey(to);
+        try{
+            bChain.block1.addTransaction(senderWallet.sendFunds(receiverWallet.getPublicKey(), amount), bChain.bChain);
+        }catch(Exception e){}
+        bChain.bChain.addBlock(bChain.block1);
+        return "redirect:/";
     }
 }

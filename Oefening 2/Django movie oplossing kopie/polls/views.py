@@ -11,13 +11,14 @@ import string
 import datetime
 # now = datetime.datetime.now()
 from django.utils import timezone
-date_time_str = '2019-03-29 08:15:27.243860'  
-date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S.%f')
+date_time_str = '2019-03-29 12:00'  
+date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M')
+#datetime_obj = datetime("2019", "03", "29", "12")
 
-now = timezone.now() - datetime.timedelta(days=30)
-now2 = date_time_obj - timezone.now()
+now = timezone.now()
+#now2 = date_time_obj - datetime(timezone.now)
 def index(request):
-    return render (request, 'polls/index.html', { 'time': now2})
+    return render (request, 'polls/index.html', { 'time': now})
 
 
 

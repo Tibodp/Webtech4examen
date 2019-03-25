@@ -1,0 +1,16 @@
+<h1>Movielist</h1>
+<br/>
+<ul>
+    {% for m in movie_name %}
+        <li><a href='/polls/{{ m }}/'>{{m}}</a></li>
+    {% endfor %}
+</ul>
+
+<h1>Search Quotes</h1>
+
+<form action='{% url 'polls:search_movie' %}' method='POST'>
+{% csrf_token %}
+<label for = 'search_term'>Your Search : </label>
+<input id='search_term' type='text' name='search_term''>
+<input type='submit' value='Search' />
+</form>

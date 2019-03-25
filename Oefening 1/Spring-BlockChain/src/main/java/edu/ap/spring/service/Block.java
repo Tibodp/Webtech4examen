@@ -3,6 +3,10 @@ package edu.ap.spring.service;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+
 import edu.ap.spring.transaction.Transaction;
 
 public class Block {

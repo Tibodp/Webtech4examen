@@ -1,7 +1,12 @@
 package edu.ap.spring.transaction;
 
 import java.security.*;
+import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import edu.ap.spring.service.BlockChain;
 import edu.ap.spring.service.StringUtil;
 
